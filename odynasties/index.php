@@ -107,3 +107,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } 
 } 
 ?>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odynasties — Welcome</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div style="max-width: 400px; margin: 80px auto; padding: 20px; font-family: sans-serif; border: 1px solid #ccc; border-radius: 8px;">
+        <h2>ODynasties</h2>
+        <p>Welcome to the community for Blood Group O.</p>
+
+        <?php if (!empty($error)): ?>
+            <div style="color: red; margin-bottom: 15px;"><?php echo htmlspecialchars($error); ?></div>
+        <?php endif; ?>
+
+        <form method="POST" action="">
+            <div style="margin-bottom: 15px;">
+                <label>Login As:</label><br>
+                <select name="login_as" style="width: 100%; padding: 8px; margin-top: 5px;">
+                    <option value="member">Member</option>
+                    <option value="admin">Administrator</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label>Email Address:</label><br>
+                <input type="email" name="email" required style="width: 95%; padding: 8px; margin-top: 5px;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label>Password:</label><br>
+                <input type="password" name="password" required style="width: 95%; padding: 8px; margin-top: 5px;">
+            </div>
+
+            <button type="submit" style="width: 100%; padding: 10px; background-color: #d9534f; color: white; border: none; border-radius: 4px; cursor: pointer;">Sign In</button>
+        </form>
+        
+        <p style="margin-top: 15px; font-size: 14px;">Need an account? <a href="register.php">Register here</a></p>
+    </div>
+</body>
+</html>
+
