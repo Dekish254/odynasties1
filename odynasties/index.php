@@ -1,4 +1,4 @@
-<?php
+<?php require_once
 $title='Odynasties — Welcome';
 require 'config/config.php';
 
