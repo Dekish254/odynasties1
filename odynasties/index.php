@@ -1,9 +1,14 @@
 <?php
+// 💡 FORCE PHP TO SHOW THE EXACT ERROR ON SCREEN INSTEAD OF BLANK
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// 1. Force definition of is_admin() so line 14 doesn't crash
+// 1. Force definition of is_admin()
 if (!function_exists('is_admin')) {
     function is_admin() {
         if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') { return true; }
@@ -12,7 +17,7 @@ if (!function_exists('is_admin')) {
     }
 }
 
-// 2. Force definition of is_member() so line 18 doesn't crash
+// 2. Force definition of is_member()
 if (!function_exists('is_member')) {
     function is_member() {
         if (isset($_SESSION['user_id']) || isset($_SESSION['username'])) { return true; }
@@ -20,14 +25,26 @@ if (!function_exists('is_member')) {
     }
 }
 
-// 3. Set page variable
+// 💡 3. NEW FIX: Force definition of start_role_session() to stop the silent crash
+if (!function_exists('start_role_session')) {
+    function start_role_session($role) {
+        $_SESSION['role'] = $role;
+    }
+}
+
+// Set page variable
 $title = 'Odynasties — Welcome';
 
-// 4. Load database connection file from the correct location
+// 4. Load database connection file
 if (file_exists('config.php')) { 
     require 'config.php'; 
 } elseif (file_exists('config/config.php')) { 
     require 'config/config.php'; 
+}
+
+// Bridge the database variables
+if (isset($conn) && !isset($pdo)) {
+    $pdo = $conn;
 }
 
 // 5. Run your login check logic
@@ -62,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif (($u['status'] ?? 'active') !== 'active' || !password_verify($password, $u['password_hash'])) { 
             $error = 'The email, password or account status is not valid.'; 
         } elseif ($u['role'] !== $role) { 
-            $error = $role === 'admin' ? 'This account is registered as a member, not an administrator.' : 'This account is an administrator. Choose “Administrator” to sign in.'; 
+            $role === 'admin' ? 'This account is registered as a member, not an administrator.' : 'This account is an administrator. Choose “Administrator” to sign in.'; 
         } else { 
             $sessionUser = [ 
                 'id'=>$u['id'],'name'=>$u['name'],'email'=>$u['email'],'role'=>$u['role'], 
@@ -74,14 +91,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                  ->execute([$u['id'],$token,$u['role']]); 
                  
             if ($u['role']==='admin') { 
-                if (function_exists('start_role_session')) { start_role_session('admin'); }
+                start_role_session('admin'); 
                 $_SESSION['admin_user']=$sessionUser; 
                 $_SESSION['admin_session_token']=$token; 
                 if (function_exists('audit_admin_action')) { audit_admin_action('Administrator login', 'Successful administrator login'); }
                 header('Location: admin/'); 
                 exit; 
             } 
-            if (function_exists('start_role_session')) { start_role_session('member'); }
+            start_role_session('member'); 
             $_SESSION['member_user']=$sessionUser; 
             $_SESSION['member_session_token']=$token; 
             header('Location: member-home.php'); 
