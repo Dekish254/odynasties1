@@ -17,7 +17,7 @@ if (!function_exists('is_admin')) {
 }
 
 // ... Leave all your original code exactly as it was below this line ...
-<?php
+?><?php
 $title='Odynasties — Welcome';
 require 'config/config.php';
 
