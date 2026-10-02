@@ -107,47 +107,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } 
 } 
 ?>
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odynasties — Welcome</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div style="max-width: 400px; margin: 80px auto; padding: 20px; font-family: sans-serif; border: 1px solid #ccc; border-radius: 8px;">
-        <h2>ODynasties</h2>
-        <p>Welcome to the community for Blood Group O.</p>
+    <?php
+// 1. Pull in your original website header design layout
+if (file_exists('includes/header.php')) {
+    require_once 'includes/header.php';
+}
 
-        <?php if (!empty($error)): ?>
-            <div style="color: red; margin-bottom: 15px;"><?php echo htmlspecialchars($error); ?></div>
-        <?php endif; ?>
+// 2. Insert the actual core login HTML structure inside your template wrapper
+?>
 
-        <form method="POST" action="">
-            <div style="margin-bottom: 15px;">
-                <label>Login As:</label><br>
-                <select name="login_as" style="width: 100%; padding: 8px; margin-top: 5px;">
-                    <option value="member">Member</option>
-                    <option value="admin">Administrator</option>
-                </select>
-            </div>
+<!-- Ensure this container layout matches your original style sheets -->
+<div class="login-container" style="max-width: 400px; margin: 50px auto; padding: 20px;">
+    <h2>Sign In to ODynasties</h2>
+    
+    <?php if (!empty($error)): ?>
+        <div class="alert alert-danger" style="color: red; margin-bottom: 15px;"><?php echo htmlspecialchars($error); ?></div>
+    <?php endif; ?>
 
-            <div style="margin-bottom: 15px;">
-                <label>Email Address:</label><br>
-                <input type="email" name="email" required style="width: 95%; padding: 8px; margin-top: 5px;">
-            </div>
+    <form method="POST" action="">
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label>Login As:</label>
+            <select name="login_as" class="form-control" style="width: 100%; padding: 8px;">
+                <option value="member">Member</option>
+                <option value="admin">Administrator</option>
+            </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label>Email Address:</label>
+            <input type="email" name="email" class="form-control" required style="width: 100%; padding: 8px;">
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label>Password:</label>
+            <input type="password" name="password" class="form-control" required style="width: 100%; padding: 8px;">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px;">Login</button>
+    </form>
+</div>
 
-            <div style="margin-bottom: 15px;">
-                <label>Password:</label><br>
-                <input type="password" name="password" required style="width: 95%; padding: 8px; margin-top: 5px;">
-            </div>
+<?php
+// 3. Pull in your original website footer layout
+if (file_exists('includes/footer.php')) {
+    require_once 'includes/footer.php';
+}
+?>
 
-            <button type="submit" style="width: 100%; padding: 10px; background-color: #d9534f; color: white; border: none; border-radius: 4px; cursor: pointer;">Sign In</button>
-        </form>
-        
-        <p style="margin-top: 15px; font-size: 14px;">Need an account? <a href="register.php">Register here</a></p>
-    </div>
-</body>
-</html>
 
