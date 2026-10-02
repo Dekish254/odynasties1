@@ -1,4 +1,23 @@
 <?php
+// 1. Load database connection first
+if (file_exists('config.php')) { require_once 'config.php'; }
+
+// 2. Fallback definition for is_admin() to prevent the fatal crash
+if (!function_exists('is_admin')) {
+    function is_admin() {
+        // If a session exists, check if the logged-in user is flagged as an admin
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+            return true;
+        }
+        if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1) {
+            return true;
+        }
+        return false; // Default to normal user if not logged in or not an admin
+    }
+}
+
+// ... Leave all your original code exactly as it was below this line ...
+<?php
 $title='Odynasties — Welcome';
 require 'config/config.php';
 
