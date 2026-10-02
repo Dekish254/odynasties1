@@ -1,22 +1,34 @@
 <?php
-// 1. Load database connection first
-if (file_exists('config.php')) { require_once 'config.php'; }
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// 2. Fallback definition for is_admin() to prevent the fatal crash
+// 1. Force the definition of is_admin()
 if (!function_exists('is_admin')) {
     function is_admin() {
-        // If a session exists, check if the logged-in user is flagged as an admin
-        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-            return true;
-        }
-        if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1) {
-            return true;
-        }
-        return false; // Default to normal user if not logged in or not an admin
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') { return true; }
+        if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1) { return true; }
+        return false;
     }
 }
 
-// ... Leave all your original code exactly as it was below this line ...
+// 2. Force the definition of is_member() to prevent the line 25 crash
+if (!function_exists('is_member')) {
+    function is_member() {
+        // If a session exists, check if the visitor is logged in as a member
+        if (isset($_SESSION['user_id']) || isset($_SESSION['username'])) {
+            return true;
+        }
+        return false; // Default to a standard public guest visitor if not logged in
+    }
+}
+
+// 3. Load database connection
+if (file_exists('config.php')) { require_once 'config.php'; }
+
+// Close the PHP block safely before HTML or subsequent code starts
+?>
+
 $title='Odynasties — Welcome';
 require 'config/config.php';
 
