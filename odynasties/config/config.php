@@ -1,33 +1,37 @@
 <?php
-// Force error visibility inside config
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 try {
-    // 1. Establish the global SQLite database file in the server's writable temp space
+    // 1. Open a clean SQLite file connection
     $dbFile = "/tmp/odynasties.sqlite";
-    $isNewDatabase = !file_exists($dbFile);
-
-    // 2. Open the PDO file connection
     $pdo = new PDO("sqlite:" . $dbFile);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    // Create a duplicate variable name so it is compatible with all script types
     $conn = $pdo;
 
-    // 3. Automatically generate tables using your .sql file if this database is fresh
-    if ($isNewDatabase) {
-        $sqlPath = __DIR__ . "/database/odynasties.sql";
-        if (file_exists($sqlPath)) {
-            $sqlQueries = file_get_contents($sqlPath);
-            $pdo->exec($sqlQueries);
-        }
-    }
+    // 2. Natively build the core users and sessions tables (Bypassing MySQL syntax issues)
+    $pdo->exec("CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        password_hash TEXT NOT NULL,
+        role TEXT NOT NULL DEFAULT 'member',
+        blood_group TEXT,
+        status TEXT NOT NULL DEFAULT 'active',
+        profile_picture TEXT
+    )");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS login_sessions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        session_token TEXT NOT NULL,
+        role TEXT NOT NULL,
+        last_seen TEXT NOT NULL
+    )");
+
 } catch (PDOException $e) {
-    echo "<div style='color:red; border:1px solid red; padding:15px; margin:20px; font-family:sans-serif;'>";
-    echo "<strong>Database Connection Error:</strong> " . htmlspecialchars($e->getMessage());
-    echo "</div>";
+    echo "Database Error: " . htmlspecialchars($e->getMessage());
     die();
 }
 ?>
