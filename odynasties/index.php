@@ -18,7 +18,7 @@ if (!function_exists('is_member')) {
 }
 
 // 2. Add a simple check line to prove the file is loading
-echo "<!-- Debug: File loaded successfully -->"; 
+ 
 
 
 
