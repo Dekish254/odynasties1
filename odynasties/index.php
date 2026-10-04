@@ -1,4 +1,12 @@
 <?php
+// Force PHP to show errors on the screen
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Your existing missing function definitions:
+function is_admin() { return false; }
+function is_member() { return false; }
 // 1. Define all missing helper functions at the very top
 function is_admin() {
     return false; // Set to true if you need admin access
