@@ -13,3 +13,4 @@ EXPOSE 80
 
 # Overwrite Apache settings to allow public folder reads dynamically
 CMD ["apache2-foreground"]
+RUN chown -R www-data:www-data /var/www/html
