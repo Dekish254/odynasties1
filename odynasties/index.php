@@ -1,21 +1,24 @@
 <?php
-// Force PHP to show errors on the screen
+// Force PHP to show errors on the screen if any occur
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Safely define functions only if they aren't declared elsewhere
+// 1. Change 'false' to 'true' to see what is hidden behind these sections!
 if (!function_exists('is_admin')) {
     function is_admin() {
-        return false; 
+        return true; // <-- Changed to true
     }
 }
 
 if (!function_exists('is_member')) {
     function is_member() {
-        return false; 
+        return true; // <-- Changed to true
     }
 }
+
+// 2. Add a simple check line to prove the file is loading
+echo "<!-- Debug: File loaded successfully -->"; 
 
 
 
