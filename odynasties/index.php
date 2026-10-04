@@ -1,7 +1,7 @@
 <?php
 $title='Odynasties — Welcome';
 require 'config/config.php';
-
+require_once 'functions.php';
 if (is_admin()) { header('Location: admin/'); exit; }
 if (is_member()) { header('Location: member-home.php'); exit; }
 
