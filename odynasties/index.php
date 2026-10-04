@@ -1,14 +1,23 @@
 <?php
-// Define the missing function so the app stops crashing
+// 1. Define all missing helper functions at the very top
 function is_admin() {
-    // For now, return false (or true if you want to force admin access)
-    return false; 
+    return false; // Set to true if you need admin access
 }
 
-// Your existing line 5 can now run safely:
+function is_member() {
+    return false; // Set to true if you need member access
+}
+
+// 2. Your existing logic continues below safely:
 if (is_admin()) {
     // ... admin code ...
 }
+
+// ... somewhere around line 17:
+if (is_member()) {
+    // ... member code ...
+}
+
 
 $title='Odynasties — Welcome';
 require 'config/config.php';
