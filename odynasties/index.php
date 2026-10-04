@@ -4,27 +4,19 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Your existing missing function definitions:
-function is_admin() { return false; }
-function is_member() { return false; }
-// 1. Define all missing helper functions at the very top
-function is_admin() {
-    return false; // Set to true if you need admin access
+// Safely define functions only if they aren't declared elsewhere
+if (!function_exists('is_admin')) {
+    function is_admin() {
+        return false; 
+    }
 }
 
-function is_member() {
-    return false; // Set to true if you need member access
+if (!function_exists('is_member')) {
+    function is_member() {
+        return false; 
+    }
 }
 
-// 2. Your existing logic continues below safely:
-if (is_admin()) {
-    // ... admin code ...
-}
-
-// ... somewhere around line 17:
-if (is_member()) {
-    // ... member code ...
-}
 
 
 $title='Odynasties — Welcome';
