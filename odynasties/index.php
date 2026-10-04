@@ -1,5 +1,4 @@
 <?php
-<?php
 // Define the missing function so the app stops crashing
 function is_admin() {
     // For now, return false (or true if you want to force admin access)
