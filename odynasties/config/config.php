@@ -26,6 +26,7 @@ try {
 }
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $conn = $pdo;
+DB_HOST=host.docker.internal
 
     // 2. Natively build the core users and sessions tables (Bypassing MySQL syntax issues)
     $pdo->exec("CREATE TABLE IF NOT EXISTS users (
