@@ -6,7 +6,24 @@ error_reporting(E_ALL);
 try {
     // 1. Open a clean SQLite file connection
     $dbFile = "/tmp/odynasties.sqlite";
-    $pdo = new PDO("sqlite:" . $dbFile);
+    $host     = 'db'; // Must match your MySQL docker service name
+$db       = 'my_application_db';
+$user     = 'app_user';
+$password = 'app_password';
+$charset  = 'utf8mb4';
+
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset;port=3306";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
+
+try {
+     $pdo = new PDO($dsn, $user, $password, $options);
+} catch (\PDOException $e) {
+     throw new \PDOException($e->getMessage(), (int)$e->getCode());
+}
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $conn = $pdo;
 
