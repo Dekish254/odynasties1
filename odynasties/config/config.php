@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 try {
   // Force-override the host to route through your computer's gateway
-$host     = '127.0.0.1'; 
+$host     = 'db'; 
 $db       = 'my_application_db'; // Change to your actual database name
 $user     = 'app_user';          // Change to your actual database user
 $password = 'app_password';      // Change to your actual database password
