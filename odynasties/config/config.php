@@ -4,12 +4,11 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 try {
-    // 1. Open a clean SQLite file connection
-    $dbFile = "/tmp/odynasties.sqlite";
-    $host     = 'db'; // Must match your MySQL docker service name
-$db       = 'my_application_db';
-$user     = 'app_user';
-$password = 'app_password';
+  // Force-override the host to route through your computer's gateway
+$host     = 'host.docker.internal'; 
+$db       = 'my_application_db'; // Change to your actual database name
+$user     = 'app_user';          // Change to your actual database user
+$password = 'app_password';      // Change to your actual database password
 $charset  = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset;port=3306";
@@ -22,11 +21,9 @@ $options = [
 try {
      $pdo = new PDO($dsn, $user, $password, $options);
 } catch (\PDOException $e) {
-     throw new \PDOException($e->getMessage(), (int)$e->getCode());
+     echo "Database Error: " . $e->getMessage();
+     exit;
 }
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $conn = $pdo;
-
 
     // 2. Natively build the core users and sessions tables (Bypassing MySQL syntax issues)
     $pdo->exec("CREATE TABLE IF NOT EXISTS users (
