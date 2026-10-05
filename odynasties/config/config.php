@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 try {
   // Force-override the host to use Docker's internal network name
-$host     = 'db';                // <-- CHANGED THIS from '127.0.0.1' to 'db'
+$host     = 'mysql_database';                // <-- CHANGED THIS from '127.0.0.1' to 'db'
 $db       = 'my_application_db'; // Matches your MYSQL_DATABASE env var
 $user     = 'app_user';          // Matches your MYSQL_USER env var
 $password = 'app_password';      // Matches your MYSQL_PASSWORD env var
