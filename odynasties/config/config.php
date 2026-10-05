@@ -4,19 +4,15 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 try {
-  // Force-override the host to route through your computer's gateway
-$host     = 'db'; 
-$db       = 'my_application_db'; // Change to your actual database name
-$user     = 'app_user';          // Change to your actual database user
-$password = 'app_password';      // Change to your actual database password
+  // Force-override the host to use Docker's internal network name
+$host     = 'db';                // <-- CHANGED THIS from '127.0.0.1' to 'db'
+$db       = 'my_application_db'; // Matches your MYSQL_DATABASE env var
+$user     = 'app_user';          // Matches your MYSQL_USER env var
+$password = 'app_password';      // Matches your MYSQL_PASSWORD env var
 $charset  = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset;port=3306";
 $options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
 
 try {
      $pdo = new PDO($dsn, $user, $password, $options);
