@@ -12,5 +12,6 @@ COPY . /var/www/html/
 EXPOSE 80
 
 # Overwrite Apache settings to allow public folder reads dynamically
+RUN docker-php-ext-install pdo pdo_mysql
 CMD ["apache2-foreground"]
 RUN chown -R www-data:www-data /var/www/html
