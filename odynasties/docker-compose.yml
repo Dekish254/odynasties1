@@ -4,13 +4,25 @@ services:
   app:
     build: .
     container_name: app_container
-    # ... keep your other app settings ...
-    extra_hosts:
-      - "host.docker.internal:host-gateway" # <-- Add this line right here
+    restart: always
+    network_mode: "host" # <-- Forces app to use your computer's network directly
+    environment:
+      - DB_HOST=127.0.0.1
+      - DB_PORT=3306
 
   db:
     image: mysql:8.0
     container_name: mysql_database
-    ports:
-      - "3306:3306" # <-- Essential: ensures MySQL is listening on your host machine
-    # ... keep your other db settings ...
+    restart: always
+    network_mode: "host" # <-- Forces MySQL to listen on your computer's local port 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: my_application_db
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+volumes:
+  mysql_data:
