@@ -5,16 +5,13 @@ services:
     build: .
     container_name: app_container
     restart: always
-    network_mode: "host" # <-- Forces app to use your computer's network directly
-    environment:
-      - DB_HOST=127.0.0.1
-      - DB_PORT=3306
+    network_mode: "host" # <-- Forces app to share the host network
 
   db:
     image: mysql:8.0
     container_name: mysql_database
     restart: always
-    network_mode: "host" # <-- Forces MySQL to listen on your computer's local port 3306
+    network_mode: "host" # <-- Forces MySQL to share the host network
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: my_application_db
