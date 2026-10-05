@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$host     = 'mysql_database'; 
+$host     = '127.0.0.1'; // <-- Set this to 127.0.0.1
 $db       = 'my_application_db'; 
 $user     = 'app_user';          
 $password = 'app_password';      
